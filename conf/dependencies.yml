@@ -1,0 +1,4 @@
+self: play -> privateBinder 0.1
+
+require:
+    - play
