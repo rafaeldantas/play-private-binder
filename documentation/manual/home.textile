@@ -1,7 +1,7 @@
 h1. PrivateBinder module for Play!
 
 PrivateBinder allows you to use the Play! binding mechanism for private attributes.
-This is achived by enhancinh the Annotated classes/attributes with setters.
+This is achieved  by enhancing the Annotated classes/attributes with setters.
 
 Motivation: http://tinyurl.com/9ddc7yu
 
