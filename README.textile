@@ -1,0 +1,92 @@
+h1. PrivateBinder module for Play!
+
+PrivateBinder allows you to use the Play! binding mechanism for private attributes.
+This is achived by enhancinh the Annotated classes/attributes with setters.
+
+Motivation: http://tinyurl.com/9ddc7yu
+
+h2. Sample application
+
+
+bc. 
+package models;
+import javax.persistence.Entity;
+...
+@Entity
+@Table(name = "user")
+public class User extends Model {
+@PrivateBinder
+private String name;
+public String name() {
+	return name;
+}
+}
+
+p(note). Remember to always use @NoBinding and @As annotations to prevent unwanted/immutable attributes from being submitted to the Controller.
+
+h2. How to
+
+There is basically no configuration. All you have to do to set up is annotate your Class/attribute with @PrivateBinder, and the module will enhance the selected class with setters for the specific attributes.
+
+It can be used on Type level:
+
+bc. 
+package models;
+import javax.persistence.Entity;
+...
+@PrivateBinder
+public class Person {
+	private String name;
+	private int age;
+	public Person father;
+	private void setAge(int age){
+		if(age < 19){
+			throw new IllegalAgeException("Too young!");
+		}
+	this.age = age;	
+	}
+}
+
+Setters will be generated for all private fields that DO NOT have a setter. In this case, we will end up with:
+
+
+bc. 
+package models;
+import javax.persistence.Entity;
+...
+@PrivateBinder
+public class Person {
+	private String name;
+	private int age;
+	public Person father;
+	private void setAge(int age){
+		if(age < 19){
+			throw new IllegalAgeException("Too young!");
+		}
+	this.age = age;	
+	}
+	public void setName(String name){
+		this.name = name;
+	}
+}
+
+
+It can be used on Field level:
+
+bc. 
+package models;
+import javax.persistence.Entity;
+...
+public class Car {
+	private int code;
+	@PrivateBinder
+	private String model;
+}
+
+Which will generate a setter only for the "model" attribute.
+
+h2. Credits
+
+Author: Rafael Dantas
+
+Cheers!
